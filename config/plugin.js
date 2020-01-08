@@ -10,3 +10,9 @@ exports.redis = {
   enable: true, // 开启
   package: 'egg-redis', // 对应
 };
+
+exports.cors = {
+  enable: true,
+  package: 'egg-cors',
+};
+

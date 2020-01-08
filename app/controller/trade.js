@@ -14,10 +14,12 @@ class TradeController extends Controller {
         trades = await this.ctx.service.trade.ownedTradesWithTp(tpHash, account);
       } else if (tpHash) {
         trades = await this.ctx.service.trade.tradesWithTp(tpHash);
+
       } else if (account) {
         trades = {};// TODO:
       }
     } catch (error) {
+      console.error(error);
       trades = {};
     }
 

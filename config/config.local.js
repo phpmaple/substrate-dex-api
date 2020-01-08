@@ -18,6 +18,11 @@ module.exports = appInfo => {
   // add your middleware config here
   config.middleware = [];
 
+  config.cors = {
+    origin: 'http://127.0.0.1:8000',
+    credentials: true,
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
+  };
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
@@ -33,6 +38,7 @@ module.exports = appInfo => {
         password: 'root',
         // 数据库名
         database: 'polkascan',
+        dateStrings: true,
       },
       // 是否加载到 app 上，默认开启
       app: true,
