@@ -7,7 +7,7 @@ exports.mysql = {
 };
 
 exports.redis = {
-  enable: true, // 开启
+  enable: false, // 开启
   package: 'egg-redis', // 对应
 };
 
