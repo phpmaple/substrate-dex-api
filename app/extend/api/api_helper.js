@@ -27,6 +27,9 @@ module.exports = {
 
   // TradePair
   async getTradePair(hash) {
+    if (!api) {
+      return {};
+    }
     const result = await api.query.tradeModule.tradePairs(hash);
 
     return result.isSome ? result.unwrap().toJSON() : {};
@@ -35,6 +38,7 @@ module.exports = {
   //      Order
   async getOwnedOrders(accountId) {
     const maxIndex = await api.query.tradeModule.ownedOrdersIndex(accountId);
+
     const multiParams = _.range(maxIndex).map(i => [ accountId, i ]);
 
     const coupleOfHash = await api.query.tradeModule.ownedOrders.multi(multiParams);
@@ -94,7 +98,11 @@ module.exports = {
   },
 
   async ordersWith(hash) {
+    if (!hash || hash.length === 0) {
+      return [];
+    }
     const result = await api.query.tradeModule.orders.multi(hash);
+
     return result.map(o => o.toJSON());
   },
 
