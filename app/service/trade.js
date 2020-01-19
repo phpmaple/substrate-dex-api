@@ -4,8 +4,8 @@ const Service = require('egg').Service;
 const api = require('../extend/api/api_helper');
 
 class TradeService extends Service {
-  async ownedTradesWithTp(tpHash, accountId) {
-    const trades = await api.getOwnedTradesWithTp(tpHash, accountId);
+  async ownedTradesWithTp(tpHash, accountId, count = 10) {
+    const trades = await api.getOwnedTradesWithTp(tpHash, accountId, count);
 
     return Promise.all(
       trades.map(async o => {
@@ -19,8 +19,8 @@ class TradeService extends Service {
     );
   }
 
-  async tradesWithTp(tpHash) {
-    const trades = await api.getTradesWithTp(tpHash);
+  async tradesWithTp(tpHash, count = 20) {
+    const trades = await api.getTradesWithTp(tpHash, count);
 
     return Promise.all(
       trades.map(async o => {
