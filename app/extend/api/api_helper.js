@@ -114,7 +114,7 @@ module.exports = {
   async getOwnedTradesWithTp(hash, accountId, maxNum = 20) {
     const maxIndex = await api.query.tradeModule.ownedTPTradesIndex([ accountId, hash ]);
 
-    const multiParams = _.range(maxIndex - 1, Math.max(0, maxIndex - maxNum), -1).map(i => [ accountId, hash, i ]);
+    const multiParams = _.range(maxIndex - 1, Math.max(0, maxIndex - maxNum + 1), -1).map(i => [ accountId, hash, i ]);
     const coupleOfHash = await api.query.tradeModule.ownedTPTrades.multi(multiParams);
     return await this.tradesWith(coupleOfHash.map(v => v.toHex()));
   },
@@ -122,7 +122,7 @@ module.exports = {
   async getTradesWithTp(hash, maxNum = 20) {
     const maxIndex = await api.query.tradeModule.tradePairOwnedTradesIndex(hash);
 
-    const multiParams = _.range(maxIndex - 1, Math.max(0, maxIndex - maxNum), -1).map(i => {
+    const multiParams = _.range(maxIndex - 1, Math.max(0, maxIndex - maxNum + 1), -1).map(i => {
       return [ hash, i ];
     });
     const coupleOfHash = await api.query.tradeModule.tradePairOwnedTrades.multi(multiParams);
