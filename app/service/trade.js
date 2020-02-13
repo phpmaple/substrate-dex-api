@@ -10,8 +10,7 @@ class TradeService extends Service {
     return Promise.all(
       trades.map(async o => {
         const { datetime } = await this._blockOf(
-          o.hash,
-          this.app.config.events.trade[2]
+          o.hash
         );
 
         return { ...o, datetime };
@@ -25,8 +24,7 @@ class TradeService extends Service {
     return Promise.all(
       trades.map(async o => {
         const { datetime } = await this._blockOf(
-          o.hash,
-          this.app.config.events.trade[2]
+          o.hash
         );
 
         return { ...o, datetime };
@@ -37,7 +35,7 @@ class TradeService extends Service {
   async _blockOf(hash) {
     const { mysql } = this.app;
     const noPrefixHash = hash.replace('0x', '');
-    const sql = `SELECT * FROM data_trade where trade_hash=${noPrefixHash}`;
+    const sql = `SELECT * FROM data_trade where trade_hash='${noPrefixHash}'`;
 
     const data = await mysql.query(sql);
 
