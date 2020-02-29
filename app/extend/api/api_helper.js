@@ -9,13 +9,12 @@ let api;
 
 module.exports = {
   async init(url) {
-    const provider = new WsProvider(url);
+    const provider = new WsProvider(url, true);
     api = await ApiPromise.create({ provider, types: types.types });
   },
 
   async getFreeBalance(accountId, hash) {
     const result = await api.query.tokenModule.freeBalanceOf([ accountId, hash ]);
-
     return result.toNumber();
   },
 
