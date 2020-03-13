@@ -28,7 +28,7 @@ module.exports = appInfo => {
     mysql: {
       client: {
         // host
-        host: '47.101.64.138',
+        host: '127.0.0.1',
         // 端口号
         port: '33061',
         // 用户名
@@ -55,7 +55,7 @@ module.exports = appInfo => {
     },
 
     nodes: {
-      wsURL: 'ws://47.100.239.204:9944',
+      wsURL: 'wss://dotws.cybex.io',
     },
     events: { trade: [ 'TradePairCreated', 'OrderCreated', 'TradeCreated', 'OrderCanceled' ], token: [ 'Issued', 'Transferd', 'Freezed', 'UnFreezed' ] },
   };
