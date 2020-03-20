@@ -1,15 +1,16 @@
 /* eslint valid-jsdoc: "off" */
 
 'use strict';
+require('dotenv').config();
 
 /**
  * @param {Egg.EggAppInfo} appInfo app info
  */
 module.exports = appInfo => {
   /**
-     * built-in config
-     * @type {Egg.EggAppConfig}
-     **/
+   * built-in config
+   * @type {Egg.EggAppConfig}
+   **/
   const config = (exports = {});
 
   // use for cookie sign key, should change to your own and keep security
@@ -25,6 +26,16 @@ module.exports = appInfo => {
   };
   // add your user config here
   const userConfig = {
+    httpAuth: {
+      username: 'admin',
+      password: process.env.HTTP_BASIC_PASS,
+    },
+    mongoose: {
+      client: {
+        url: 'mongodb://127.0.0.1:27017/cybex-dot-web-config',
+        options: {},
+      },
+    },
     // myAppName: 'egg',
     mysql: {
       client: {
@@ -58,7 +69,15 @@ module.exports = appInfo => {
     nodes: {
       wsURL: 'wss://dotws.cybex.io',
     },
-    events: { trade: [ 'TradePairCreated', 'OrderCreated', 'TradeCreated', 'OrderCanceled' ], token: [ 'Issued', 'Transferd', 'Freezed', 'UnFreezed' ] },
+    events: {
+      trade: [
+        'TradePairCreated',
+        'OrderCreated',
+        'TradeCreated',
+        'OrderCanceled',
+      ],
+      token: ['Issued', 'Transferd', 'Freezed', 'UnFreezed'],
+    },
   };
 
   return {

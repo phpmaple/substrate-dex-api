@@ -16,3 +16,12 @@ exports.cors = {
   package: 'egg-cors',
 };
 
+exports.httpAuth = {
+  enable: true,
+  package: 'egg-http-auth',
+};
+
+exports.mongoose = {
+  enable: true,
+  package: 'egg-mongoose',
+};
