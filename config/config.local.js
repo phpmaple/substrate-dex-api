@@ -29,11 +29,12 @@ module.exports = appInfo => {
     httpAuth: {
       username: 'admin',
       password: process.env.HTTP_BASIC_PASS,
+      match: /^\/api\/v1\/backdoor/,
     },
     mongoose: {
       client: {
         url: 'mongodb://127.0.0.1:27017/cybex-dot-web-config',
-        options: {},
+        options: { useUnifiedTopology: true },
       },
     },
     // myAppName: 'egg',
