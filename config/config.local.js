@@ -19,18 +19,37 @@ module.exports = appInfo => {
   // add your middleware config here
   config.middleware = [];
 
+  config.security = {
+    csrf: {
+      enable: false,
+    },
+  };
   config.cors = {
     origin: '*',
     credentials: true,
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
   };
+
+  config.logger = {
+    outputJSON: true,
+    level: 'DEBUG',
+  };
   // add your user config here
   const userConfig = {
-    httpAuth: {
-      username: 'admin',
-      password: process.env.HTTP_BASIC_PASS,
-      match: /^\/api\/v1\/backdoor/,
+    adminserect: process.env.ADMIN_SECRET,
+
+    onerror: {
+      accepts() {
+        return 'json';
+      },
+
+      json(err, ctx) {
+        // json hander
+        ctx.body = err;
+        ctx.status = 500;
+      },
     },
+
     mongoose: {
       client: {
         url: 'mongodb://127.0.0.1:27017/cybex-dot-web-config',

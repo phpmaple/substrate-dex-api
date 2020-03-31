@@ -3,13 +3,14 @@
 const Service = require('egg').Service;
 
 class TokenService extends Service {
-  async findBlock(id) {
-    const { mysql } = this.app;
-    const Literal = mysql.literals.Literal;
-    const contain = Literal(`JSON_CONTAINS(attributes, '{"value": "${id}"}')`);
-    const sql = `SELECT * FROM data_event where event_id='OrderCreated' and ${contain}`;
-    const block = await mysql.query(sql);
-    return { block };
+  async create(token) {
+    return await this.ctx.model.Token.update({ id: token.id }, token, {
+      upsert: true,
+    });
+  }
+
+  async find() {
+    return await this.ctx.model.Token.find(null, { _id: 0, __v: 0 });
   }
 }
 

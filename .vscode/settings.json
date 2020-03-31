@@ -1,0 +1,8 @@
+{
+  "logViewer.watch": [
+    {
+      "title": "log",
+      "pattern": "~/Documents/node/dex-demo-api/logs/dex-demo-api/dex-demo-api-web.log"
+    }
+  ]
+}

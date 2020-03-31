@@ -9,9 +9,8 @@ class OrderService extends Service {
 
     return Promise.all(
       orders.map(async o => {
-        const { datetime } = await this._blockOfEvent(
-          o.hash,
-          this.app.config.events.trade[1]
+        const { datetime } = await this._blockOf(
+          o.hash
         );
 
         return { ...o, datetime };
@@ -20,13 +19,15 @@ class OrderService extends Service {
   }
 
   async ownedOrdersWith(accountId, tpHash, isOpened) {
-    const orders = isOpened ? await api.getOwnedTpOpenedOrders(accountId, tpHash) : await api.getOwnedTpClosedOrders(accountId, tpHash);
+    const orders = isOpened
+      ? await api.getOwnedTpOpenedOrders(accountId, tpHash)
+      : await api.getOwnedTpClosedOrders(accountId, tpHash);
 
     return Promise.all(
       orders.map(async o => {
-        const { datetime } = await this._blockOfEvent(
-          o.hash,
-          this.app.config.events.trade[1]
+
+        const { datetime } = await this._blockOf(
+          o.hash
         );
 
         return { ...o, datetime };
@@ -40,24 +41,22 @@ class OrderService extends Service {
     return orderBook;
   }
 
-  async _blockOfEvent(hash, event) {
+  async _blockOf(hash) {
     const { mysql } = this.app;
-    const Literal = mysql.literals.Literal;
-    const contain = Literal(
-      `JSON_CONTAINS(attributes, '{"value": "${hash}"}')`
-    );
-    const sql = `SELECT * FROM data_event where event_id='${event}' and ${contain}`;
+    const noPrefixHash = hash.replace('0x', '');
+    const sql = `SELECT * FROM data_order where order_hash='${noPrefixHash}'`;
 
-    const data_event = await mysql.query(sql);
+    const data = await mysql.query(sql);
 
-    if (!data_event[0]) {
+    if (!data[0]) {
       return {};
     }
 
-    const block = await mysql.get('data_block', { id: data_event[0].block_id });
+    const block = await mysql.get('data_block', { id: data[0].block_id });
 
     return { ...block };
   }
+
 }
 
 module.exports = OrderService;

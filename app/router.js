@@ -12,6 +12,9 @@ module.exports = app => {
 
   app.router.resources('trades', '/api/v1/trades', app.controller.trade);
 
-  app.router.get('/api/v1/market/:hash', app.controller.market.history);
   app.router.get('/api/v1/ticker/:hash', app.controller.ticker.index);
+
+  app.router.resources('token', '/api/v1/token', app.controller.token);
+  app.router.resources('pair', '/api/v1/pair', app.controller.pair);
+
 };

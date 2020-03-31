@@ -1,6 +1,7 @@
 /* eslint valid-jsdoc: "off" */
 
 'use strict';
+require('dotenv').config();
 
 /**
  * @param {Egg.EggAppInfo} appInfo app info
@@ -24,6 +25,25 @@ module.exports = appInfo => {
   };
   // add your user config here
   const userConfig = {
+    adminserect: process.env.ADMIN_SECRET,
+    onerror: {
+      accepts() {
+        return 'json';
+      },
+
+      json(err, ctx) {
+        // json hander
+        ctx.body = err;
+        ctx.status = 500;
+      },
+    },
+
+    mongoose: {
+      client: {
+        url: 'mongodb://127.0.0.1:27017/cybex-dot-web-config',
+        options: { useUnifiedTopology: true },
+      },
+    },
     // myAppName: 'egg',
     mysql: {
       client: {
@@ -57,7 +77,15 @@ module.exports = appInfo => {
     nodes: {
       wsURL: 'wss://dotws.cybex.io',
     },
-    events: { trade: [ 'TradePairCreated', 'OrderCreated', 'TradeCreated', 'OrderCanceled' ], token: [ 'Issued', 'Transferd', 'Freezed', 'UnFreezed' ] },
+    events: {
+      trade: [
+        'TradePairCreated',
+        'OrderCreated',
+        'TradeCreated',
+        'OrderCanceled',
+      ],
+      token: ['Issued', 'Transferd', 'Freezed', 'UnFreezed'],
+    },
   };
 
   return {
