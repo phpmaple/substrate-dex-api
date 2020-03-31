@@ -11,7 +11,7 @@ module.exports = appInfo => {
    * built-in config
    * @type {Egg.EggAppConfig}
    **/
-  const config = exports = {};
+  const config = (exports = {});
 
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1575346880143_2716';
@@ -41,7 +41,7 @@ module.exports = appInfo => {
     mongoose: {
       client: {
         url: 'mongodb://127.0.0.1:27017/cybex-dot-web-config',
-        options: { useUnifiedTopology: true },
+        options: { useUnifiedTopology: true, useCreateIndex: true },
       },
     },
     // myAppName: 'egg',
