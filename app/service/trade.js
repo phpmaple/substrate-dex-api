@@ -32,6 +32,20 @@ class TradeService extends Service {
     );
   }
 
+  async getOwnedTrades(account, count = 20) {
+    const trades = await api.getOwnedTrades(account, count);
+
+    return Promise.all(
+      trades.map(async o => {
+        const { datetime } = await this._blockOf(
+          o.hash
+        );
+
+        return { ...o, datetime };
+      })
+    );
+  }
+
   async _blockOf(hash) {
     const { mysql } = this.app;
     const noPrefixHash = hash.replace('0x', '');

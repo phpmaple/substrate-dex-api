@@ -17,7 +17,7 @@ class TradeController extends Controller {
         trades = await this.ctx.service.trade.tradesWithTp(tpHash, count);
 
       } else if (account) {
-        trades = {};// TODO:
+        trades = await this.ctx.service.trade.getOwnedTrades(account, count);
       }
     } catch (error) {
       console.error(error);

@@ -17,13 +17,27 @@ module.exports = {
     const result = await api.query.tokenModule.freeBalanceOf([ accountId, hash ]);
     return result.toNumber();
   },
-
   async getFreezedBalance(accountId, hash) {
     const result = await api.query.tokenModule.freezedBalanceOf([ accountId, hash ]);
 
     return result.toNumber();
   },
+  async getSystemBalance(accountId) {
+    const result = await api.query.balances.freeBalance(accountId);
+    return result.toNumber();
+  },
+  async getAllBalance(accountId, tokens) {
+    const multiParams = tokens.map(i => [accountId, i.id]);
 
+    const freeBalances = await api.query.tokenModule.freeBalanceOf.multi(multiParams);
+    const freezedBalances = await api.query.tokenModule.freezedBalanceOf.multi(multiParams);
+
+    const result = {};
+    for (const [index, value] of tokens.entries()) {
+      result[value.id] = { freeBalance: freeBalances[index].toNumber(), freezedBalance: freezedBalances[index].toNumber() };
+    }
+    return result;
+  },
   // TradePair
   async getTradePair(hash) {
     if (!api) {
@@ -126,6 +140,21 @@ module.exports = {
           -1
         ).map(i => [accountId, hash, i]);
     const coupleOfHash = await api.query.tradeModule.ownedTPTrades.multi(multiParams);
+    return await this.tradesWith(coupleOfHash.map(v => v.toHex()));
+  },
+
+  async getOwnedTrades(accountId, maxNum = 20) {
+    const maxIndex = await api.query.tradeModule.ownedTradesIndex(accountId);
+
+    const multiParams =
+      maxIndex.toNumber() === 1
+        ? [[accountId, 0]]
+        : _.range(
+          maxIndex - 1,
+          Math.max(0, maxIndex - maxNum + 1),
+          -1
+        ).map(i => [accountId, i]);
+    const coupleOfHash = await api.query.tradeModule.ownedTrades.multi(multiParams);
     return await this.tradesWith(coupleOfHash.map(v => v.toHex()));
   },
 

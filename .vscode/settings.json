@@ -4,5 +4,6 @@
       "title": "log",
       "pattern": "~/Documents/node/dex-demo-api/logs/dex-demo-api/dex-demo-api-web.log"
     }
-  ]
+  ],
+  "python.pythonPath": "/Users/koofrank/.pyenv/versions/3.8.0/bin/python3.8"
 }
