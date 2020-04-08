@@ -17,7 +17,7 @@ class TokenController extends Controller {
 
   async create() {
     const ctx = this.ctx;
-    const secret = ctx.get('ADMIN_SECRET');
+    const secret = ctx.get('ADMIN-SECRET');
 
     if (secret !== this.app.config.adminserect) {
       this.ctx.body = '403 Forbidden';
