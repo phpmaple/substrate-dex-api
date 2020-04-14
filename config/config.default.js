@@ -18,7 +18,10 @@ module.exports = appInfo => {
 
   // add your middleware config here
   config.middleware = [];
-
+  config.logger = {
+    dir: '/data/cybexDot-api',
+    outputJSON: true,
+  };
   config.security = {
     csrf: {
       enable: false,
